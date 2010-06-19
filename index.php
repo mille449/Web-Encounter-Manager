@@ -32,5 +32,6 @@
         <button class="action" onclick="Next()" >Next</button>
         <button class="action" onclick="Damage()" >Damage</button>
         <button class="action" onclick="Heal()" >Heal</button>
+        <button class="action" onclick="TempHP()" >Temp HP</button>
     </body>
 </html>

@@ -7,31 +7,20 @@ function removeClass(obj, className){
 }
 
 function Init(){
-    var c = new Combatant();
-    c.Name = "Tim";
-    c.MaxHP = 100;
-    c.CurrHP = c.MaxHP;
+    var c = new Combatant("Tim",100);
     Encounter.AddCombatant(c);
 
-    c = new Combatant();
-    c.Name = "Matt";
-    c.MaxHP = 150;
-    c.CurrHP = c.MaxHP;
+    var c = new Combatant("Matt",150);
     c.IsPlayer = false;
     Encounter.AddCombatant(c);
 
-    c = new Combatant();
-    c.Name = "Dan";
-    c.MaxHP = 200;
-    c.CurrHP = c.MaxHP;
+    var c = new Combatant("Dan",200);
     Encounter.AddCombatant(c);
 
-    c = new Combatant();
-    c.Name = "Becky";
-    c.MaxHP = 250;
-    c.CurrHP = c.MaxHP;
+    var c = new Combatant("Becky",250);
     c.IsPlayer = false;
     Encounter.AddCombatant(c);
+
 
 
 //    var bg_color = "gray";
@@ -113,11 +102,12 @@ function Damage(){
     var amt=25;
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
-        var success = combatant.Damage(amt);
-        $(this).children(".hp").html(combatant.CurrHP);
-        $(this).removeClass("selected");
-        if (success){
+        var changed = combatant.Damage(amt);
+        $(this).children(".hp").html(combatant.HPString());
+        $(this).click(); // deselect
+        if (changed){
             // the color will change if the number changes
+            SetStatus(this);
             $(this).addClass("damaged");
             window.setTimeout(removeClass, 600, this, "damaged");
         }
@@ -130,13 +120,43 @@ function Heal(){
     var amt=25;
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
-        var success = combatant.Heal(amt);
-        $(this).children(".hp").html(combatant.CurrHP);
-        $(this).removeClass("selected");
-        if (success){
+        var changed = combatant.Heal(amt);
+        $(this).children(".hp").html(combatant.HPString());
+        $(this).click(); // deselect
+        if (changed){
+            SetStatus(this);
             $(this).addClass("healed");
             window.setTimeout(removeClass, 600, this, "healed");
         }
     });
 }
+
+function SetStatus(obj){
+    var combatant = Encounter.Combatants[obj.id];
+    $(obj).removeClass("dead dying bloodied");
+    if (combatant.IsDead){
+        $(obj).addClass("dead");
+    }else if (combatant.IsDying){
+        $(obj).addClass("dying");
+    }else if (combatant.IsBloodied){
+        $(obj).addClass("bloodied");
+    }
+}
+
+function TempHP(){
+
+    var amt=30;
+    $(".combatant.selected").each(function(){
+        var combatant = Encounter.Combatants[this.id];
+        var changed = combatant.AddTempHP(amt);
+        $(this).children(".hp").html(combatant.HPString());
+        $(this).click(); // deselect
+        if (changed){
+            SetStatus(this);
+            $(this).addClass("healed");
+            window.setTimeout(removeClass, 600, this, "healed");
+        }
+    });
+}
+
 $(document).ready(Init);
