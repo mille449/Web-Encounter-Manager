@@ -1,0 +1,70 @@
+
+.name{
+    width: 150px;
+    display: inline-block;
+}
+
+.hp{
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+}
+
+.round{
+    width: 50px;
+    display: inline-block;
+    text-align: center;
+}
+
+.combatant{
+    padding: 2px;
+    padding-left: 5px;
+}
+
+
+
+#combatant{
+    background: chartreuse;
+}
+
+#combatant_list > div.combatant{
+    -moz-border-radius: 4px;
+    border: 1px solid black;
+    margin: 1px;
+}
+
+#combatant_list > div.combatant:hover {
+    background: #99ddee;
+}
+
+#combatant_list_container{
+    width: 260px;
+    display:block;
+}
+
+button.action {
+    float: bottom;
+}
+
+
+.player{
+    background: rgba(0,128,0,1);
+}
+.player.selected{
+    background: rgba(0,128,0,.5);
+}
+
+.monster {
+    background: rgba(139,0,0,1);
+}
+.monster.selected {
+    background: rgba(139,0,0,.5);
+}
+
+.combatant.healed{
+    color: limegreen;
+/*    //rgb(0,255,0);*/
+}
+.combatant.damaged{
+    color:red ;
+}
