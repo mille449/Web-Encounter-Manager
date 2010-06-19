@@ -47,7 +47,8 @@ function Combatant(name, maxhp){
         
         this.CurrHP -= Number(amt);
 
-        Log(this.Name + " was damaged " + amt + ".", "damaged");
+        Log(this.Name + " was damaged " + amt + ". HP at " + this.HPString() +
+            ".", "damaged");
 
         this.SetStatus();
         return true;
@@ -73,7 +74,8 @@ function Combatant(name, maxhp){
         if (amt+this.CurrHP > this.MaxHP) this.CurrHP = this.MaxHP;
         else this.CurrHP += amt;
 
-        Log(this.Name + " was healed for " + amt + ".", "healed");
+        Log(this.Name + " was healed for " + amt + ". HP at " + this.HPString()+
+            ".", "healed");
 
         this.SetStatus();
         return true;
@@ -93,20 +95,24 @@ function Combatant(name, maxhp){
         this.IsDying = false;
         this.IsBloodied = false;
 
+        var logstring = "";
+
         if (this.CurrHP <= this.BloodiedValue){
             this.IsBloodied = true;
-            Log(this.Name + " is bloodied.");
+            logstring += this.Name + " is bloodied";
         }
 
         if (this.CurrHP <= 0){
             if (this.IsPlayer && this.CurrHP > -(this.BloodiedValue) && this.FailedDeathSaves < 3){
                 this.IsDying = true;
-                Log(this.Name + " is dying.");
+                logstring += " and dying";
             }else{
                 this.IsDead = true;
-                Log(this.Name + " has died.");
+                logstring = this.Name + " has died";
             }
-        }        
+        }
+
+        if(logstring != "") Log(logstring + ".");
     }
 
     this.HPString = function(){
@@ -122,8 +128,10 @@ function Combatant(name, maxhp){
 
         amt = parseInt(amt);
         if (amt > this.TempHP){
-            Log(this.Name + " gained temp hp " + (amt - this.TempHP) + ".", "healed");
-            this.TempHP = amt;        
+            var logstring = this.Name + " gained temp hp " + (amt - this.TempHP) +
+                ". HP at ";
+            this.TempHP = amt;
+            Log(logstring + this.HPString() + ".", "healed");
             return true;
         } 
         return false;
