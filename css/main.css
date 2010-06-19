@@ -19,21 +19,26 @@
 .combatant{
     padding: 2px;
     padding-left: 5px;
-}
-
-
-
-#combatant{
-    background: chartreuse;
-}
-
-#combatant_list > div.combatant{
     -moz-border-radius: 4px;
     border: 1px solid black;
     margin: 1px;
 }
 
-#combatant_list > div.combatant:hover {
+#combatant{
+    background: chartreuse;
+    -moz-border-radius: 0px;
+    border: none;
+    margin: 0px;
+}
+div#combatant:hover{
+    /* blank for no hover effect*/
+}
+
+div.combatant:hover {
+    background: #00BFFF;
+}
+
+div.combatant.selected:hover {
     background: #99ddee;
 }
 
@@ -61,6 +66,25 @@ button.action {
     background: rgba(139,0,0,.5);
 }
 
+.combatant.bloodied{
+    border:1px solid red;
+}
+
+.combatant.dying{
+    background: gray;
+    border: 1px solid red;
+}
+
+.combatant.dying.selected{
+    background: lightgray;
+}
+
+/*damaged is below dead so that the text will still flash red*/
+.combatant.dead{
+    color: white;
+    background: black;
+}
+
 .combatant.healed{
     color: limegreen;
 /*    //rgb(0,255,0);*/
@@ -68,3 +92,4 @@ button.action {
 .combatant.damaged{
     color:red ;
 }
+
