@@ -1,10 +1,31 @@
+#log_container{
+    height: 200px;
+    width: 500px;
+    border: 1px solid black;
+    -moz-border-radius: 4px;
+    overflow : auto;
+}
+.log:nth-child(odd){
+    background: lightgray;
+}
+.endturn{
+    border-bottom: 2px solid gray;
+}
 
+#combatant_list_container{
+    width: 300px;
+    display:block;
+}
 .name{
     width: 150px;
     display: inline-block;
 }
 
 .hp{
+    display: inline;
+    float: right;
+}
+.maxhp{
     width: 30px;
     display: inline-block;
     text-align: center;
@@ -42,11 +63,6 @@ div.combatant.selected:hover {
     background: #99ddee;
 }
 
-#combatant_list_container{
-    width: 260px;
-    display:block;
-}
-
 button.action {
     float: bottom;
 }
@@ -66,30 +82,30 @@ button.action {
     background: rgba(139,0,0,.5);
 }
 
-.combatant.bloodied{
+.bloodied{
     border:1px solid red;
 }
 
-.combatant.dying{
+.dying{
     background: gray;
     border: 1px solid red;
 }
 
-.combatant.dying.selected{
+.dying.selected{
     background: lightgray;
 }
 
 /*damaged is below dead so that the text will still flash red*/
-.combatant.dead{
+.dead{
     color: white;
     background: black;
 }
 
-.combatant.healed{
+.healed{
     color: limegreen;
 /*    //rgb(0,255,0);*/
 }
-.combatant.damaged{
+.damaged{
     color:red ;
 }
 

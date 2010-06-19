@@ -22,8 +22,9 @@
         <div id="combatant_list_container">
             <div id="combatant" class="combatant" >
                     <span class="name">Name</span>
-                    <span class="hp">HP</span>
                     <span class="round">Round</span>
+                    <span class="hp">HP</span>
+                    <span class="maxhp">Max</span>
             </div>
             <div id="combatant_list"></div>
             
@@ -33,5 +34,7 @@
         <button class="action" onclick="Damage()" >Damage</button>
         <button class="action" onclick="Heal()" >Heal</button>
         <button class="action" onclick="TempHP()" >Temp HP</button>
+
+        <div id="log_container"></div>
     </body>
 </html>

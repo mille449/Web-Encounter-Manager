@@ -1,5 +1,9 @@
 
 var CombatantIDCounter = 0;
+function Log(msg, className){
+    $("#log_container").append("<div class=\"log "+className+"\">"+msg+"</div>");
+    $("#log_container").scrollTop($("#log_container").children().length * 20);
+}
 
 function Combatant(name, maxhp){
     maxhp = parseInt(maxhp);  // convert a string to an int if necessary
@@ -31,16 +35,19 @@ function Combatant(name, maxhp){
         if(this.TempHP > 0){
             if (this.TempHP > amt) {
                 this.TempHP -= amt;
+                Log(this.Name + " lost temp hp " + amt + ".", "damaged");
                 amt = 0;
             }
             else {
                 amt -= this.TempHP;
+                Log(this.Name + " lost temp hp " + this.TempHP + ".", "damaged");
                 this.TempHP = 0;
             }
         }
         
         this.CurrHP -= Number(amt);
 
+        Log(this.Name + " was damaged " + amt + ".", "damaged");
 
         this.SetStatus();
         return true;
@@ -58,12 +65,15 @@ function Combatant(name, maxhp){
                 "Are you sure you want to heal them?")){
                     return false;
             }
+            Log(this.Name + " was brought back to life.", "healed");
         }
 
         // set hp to 0 before healing
         if (this.CurrHP < 0) this.CurrHP = 0;        
         if (amt+this.CurrHP > this.MaxHP) this.CurrHP = this.MaxHP;
         else this.CurrHP += amt;
+
+        Log(this.Name + " was healed for " + amt + ".", "healed");
 
         this.SetStatus();
         return true;
@@ -85,13 +95,16 @@ function Combatant(name, maxhp){
 
         if (this.CurrHP <= this.BloodiedValue){
             this.IsBloodied = true;
+            Log(this.Name + " is bloodied.");
         }
 
         if (this.CurrHP <= 0){
             if (this.IsPlayer && this.CurrHP > -(this.BloodiedValue) && this.FailedDeathSaves < 3){
                 this.IsDying = true;
+                Log(this.Name + " is dying.");
             }else{
                 this.IsDead = true;
+                Log(this.Name + " has died.");
             }
         }        
     }
@@ -104,9 +117,13 @@ function Combatant(name, maxhp){
     }
 
     this.AddTempHP = function(amt){
+        // TODO: check rules. regen does not work if unconscious, but temp hp???
+        if (this.IsDying || this.IsDead) return false;
+
         amt = parseInt(amt);
         if (amt > this.TempHP){
-            this.TempHP = amt;            
+            Log(this.Name + " gained temp hp " + (amt - this.TempHP) + ".", "healed");
+            this.TempHP = amt;        
             return true;
         } 
         return false;

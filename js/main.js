@@ -33,6 +33,7 @@ function Init(){
         node.attr("id",combatant.ID);
         node.children(".name").html(combatant.Name);
         node.children(".hp").html(combatant.MaxHP);
+        node.children(".maxhp").html(combatant.MaxHP);
         node.children(".round").html(combatant.Round);
         node.appendTo("#combatant_list");
         if (combatant.IsPlayer) node.addClass("player");
@@ -64,7 +65,8 @@ function Next(){
     var combatant = Encounter.Combatants[current.attr("id")];
 
     Encounter.CheckEndConditions(combatant);
-    
+//    Log("", "endturn");
+    $("#log_container").children(":last").addClass("endturn");
 
     // move the person on top to the bottom
     var h = 20;//current.height(); // set to static in case the previous animation did not complete
@@ -91,6 +93,7 @@ function Next(){
 
     current = $("#combatant_list > .combatant:first-child");
     combatant = Encounter.Combatants[current.attr("id")];
+    Log(combatant.Name+"'s turn has begun.");
     Encounter.CheckStartConditions(combatant);
     
     
