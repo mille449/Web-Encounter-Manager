@@ -7,6 +7,11 @@ var Encounter = new function(){
         this.Combatants[combatant.ID] = combatant;
     }
 
+    this.RemoveCombatant = function(id){
+        // maybe should delete combatant?
+        this.Combatants[id] = null;
+    }
+
     this.IterateCombatants = function(delegate){
         // use correct iteration here!
         for (var combatant in this.Combatants){

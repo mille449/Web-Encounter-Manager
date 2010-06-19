@@ -6,24 +6,98 @@ function removeClass(obj, className){
     $(obj).removeClass(className);
 }
 
+function BindKeys(){
+    $(document).keydown(function(event){
+        switch(event.keyCode){
+            case 65: // a
+                break;
+            case 67: // c
+                break;
+            case 68: // d
+                ShowAmount(Damage);
+                break;
+            case 72: // h
+                ShowAmount(Heal);
+                break;
+            case 78: // n
+                Next();
+                break;
+            case 83: // r
+                break;
+            case 84: // t
+                ShowAmount(TempHP);
+                break;
+            default:
+//                Log("Key pressed: "+event.which);
+                break;
+        }
+    });
+
+    $("#amount").keydown(function(event){
+        // https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
+        if (event.keyCode == '13'){ // enter
+            $("#amount_ok").click();
+        }
+        if (event.keyCode == '27'){ // escape
+            $("#amount_cancel").click();
+        }
+        // non-numeric characters
+        if ((event.keyCode >= 59 && event.keyCode <= 90) ||
+            (event.keyCode >= 106 && event.keyCode <= 111) ||
+            (event.keyCode >= 188 && event.keyCode <= 222)){
+            Log("canceleld "+event.which);
+            event.preventDefault();
+        }
+    });
+
+    $("#amount_cancel").click(function(){
+        $("#amount").attr("value","");
+        $("#amount_container").animate({height:0});
+        $("#amount").blur();
+    });
+    $("#amount").blur();
+}
+
+function ShowAmount(func){
+    if (func == Damage) $("#amount_type").html("Damage");
+    if (func == Heal) $("#amount_type").html("Heal");
+    if (func == TempHP) $("#amount_type").html("Temp HP");
+
+    $("#amount_container").animate({height:50});
+    $("#amount").focus();
+    
+    setTimeout('$("#amount").attr("value","");$("#amount_container").scrollTop(0);',100);
+    
+    $("#amount_ok").unbind("click"); // in case they pressed another key first
+    $("#amount_ok").click(function(){
+        var amt = parseInt($("#amount").attr("value"));
+        if(amt >= 0){
+            func(amt);
+            $("#amount_cancel").click();
+        }else{
+            $("#amount").attr("value","");
+        }
+    });
+
+}
+
 function Init(){
     var c = new Combatant("Tim",100);
     Encounter.AddCombatant(c);
 
-    var c = new Combatant("Matt",150);
+    c = new Combatant("Matt",150);
     c.IsPlayer = false;
     Encounter.AddCombatant(c);
 
-    var c = new Combatant("Dan",200);
+    c = new Combatant("Dan",200);
     Encounter.AddCombatant(c);
 
-    var c = new Combatant("Becky",250);
+    c = new Combatant("Becky",250);
     c.IsPlayer = false;
     Encounter.AddCombatant(c);
 
 
-
-//    var bg_color = "gray";
+    // generate name plates for combatants in encounter
 //    Encounter.IterateCombatants(function(combatant){
     for(var ID in Encounter.Combatants){
         var combatant = Encounter.Combatants[ID];
@@ -49,10 +123,7 @@ function Init(){
     
     };
 
-    // set the height of the container so the stuff below it does not move.
-    var h = $("#combatant_list").height() + $("#combatant").height();
-    $("#combatant_list_container").height(h+20);
-
+    BindKeys();
 }
 
 // this will prevent this function from executing again before it is finished.
@@ -99,10 +170,8 @@ function Next(){
     
 }
 
-function Damage(){
-    // pop up amount dialog
+function Damage(amt){
 
-    var amt=25;
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.Damage(amt);
@@ -117,10 +186,8 @@ function Damage(){
     });
 }
 
-function Heal(){
-    // pop up amount dialog
-
-    var amt=25;
+function Heal(amt){
+    
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.Heal(amt);
@@ -146,9 +213,8 @@ function SetStatus(obj){
     }
 }
 
-function TempHP(){
+function TempHP(amt){
 
-    var amt=30;
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.AddTempHP(amt);
@@ -160,6 +226,28 @@ function TempHP(){
             window.setTimeout(removeClass, 600, this, "healed");
         }
     });
+}
+
+function AddCombatant(){
+    
+}
+
+function RemoveCombatant(){
+    var msg = "Do you really want to remove the following combatants?\n\n";
+    var ids = []; // keep track of ids in case things get deselected unexpectedly
+    $(".combatant.selected").each(function(){
+        ids.push(this.id);
+        msg += Encounter.Combatants[this.id].Name + "\n";
+    });
+    if (ids.length == 0) return;
+
+    var result = confirm(msg);
+    if(result){
+        for (var n in ids){
+            Encounter.RemoveCombatant(ids[n]);
+            $("#"+ids[n]).remove();
+        }
+    }
 }
 
 $(document).ready(Init);

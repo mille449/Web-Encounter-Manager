@@ -2,7 +2,6 @@
     height: 200px;
     width: 300px;
     border: 1px solid black;
-    -moz-border-radius: 4px;
     overflow : auto;
 }
 .log{
@@ -14,10 +13,25 @@
 .endturn{
     border-bottom: 2px solid gray;
 }
+#add_combatant_comtainer{
+    height: 0px;
+    overflow: hidden;
+}
+#amount_container{
+    height: 0px;
+    overflow: hidden;
+}
+
+#amount:focus{
+    border: 2px solid orange;
+}
 
 #combatant_list_container{
     width: 300px;
+    height: 300px;
     display:block;
+    overflow : auto;
+    border: 1px solid black;
 }
 .name{
     width: 150px;

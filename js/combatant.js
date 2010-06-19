@@ -2,6 +2,7 @@
 var CombatantIDCounter = 0;
 function Log(msg, className){
     $("#log_container").append("<div class=\"log "+className+"\">"+msg+"</div>");
+    // hackish, but it works.  real way would be to do more math.
     $("#log_container").scrollTop($("#log_container").children().length * 20);
 }
 
