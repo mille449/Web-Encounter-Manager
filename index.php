@@ -64,7 +64,7 @@
                 <div id="reserve_title">Reserve</div>
             </span>
 
-            <div id="log_container"></div>
+            <span id="log_container" ></span>
         </div>
     </body>
 </html>

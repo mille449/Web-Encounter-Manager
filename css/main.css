@@ -26,10 +26,11 @@ label{
 Combat log
 ***************************/
 #log_container{
-    height: 200px;
+    height: 300px;
     width: 300px;
     border: 1px solid black;
     overflow : auto;
+    display: inline-block;
 }
 .log{
     font-size: .7em;
@@ -85,7 +86,7 @@ Combatant List
     width: 300px;
     height: 300px;
     display: inline-block;
-/*    overflow: auto;*/
+    overflow: auto;
     border: 1px solid black;
 }
 .name{ width: 150px; display: inline-block; }

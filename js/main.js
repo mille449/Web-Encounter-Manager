@@ -104,9 +104,10 @@ function BindClicks(){
     });
     $("#add_combatant_ok").click(function(){
         AddCombatant();
-        $("#combatant_name").attr("value", "");
-        $("#combatant_max_hp").attr("value", "");
+//        $("#combatant_name").attr("value", "");
+//        $("#combatant_max_hp").attr("value", "");
         $("#combatant_name").focus();
+        $("#combatant_name").select();
     });
     $("#add_combatant_cancel").click(function(){
         ActionSwitch();
@@ -225,18 +226,14 @@ function Next(){
         combatant.Round++;
         current.children(".round").html(combatant.Round);
 
+        current = $("#combatant_list > .combatant:first-child");
+        combatant = Encounter.Combatants[current.attr("id")];
+        Log(combatant.Name+"'s turn has begun.");
+        Encounter.CheckStartConditions(combatant);
         // unlock here because this will happen last
         next_lock = false;
     }});
 
-    
-
-    current = $("#combatant_list > .combatant:first-child");
-    combatant = Encounter.Combatants[current.attr("id")];
-    Log(combatant.Name+"'s turn has begun.");
-    Encounter.CheckStartConditions(combatant);
-    
-    
 }
 
 function Damage(amt){
@@ -312,7 +309,7 @@ function AddCombatant(){
     node.children(".hp").html(combatant.MaxHP);
     node.children(".maxhp").html(combatant.MaxHP);
     node.children(".round").html(combatant.Round);
-    node.appendTo("#combatant_list");
+    node.appendTo("#reserve_container");
     if (combatant.IsPlayer) node.addClass("player");
     else node.addClass("monster");
 }
