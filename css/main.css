@@ -1,3 +1,17 @@
+
+button.action {
+    float: bottom;
+}
+
+label{
+    width: 100px;
+    display: inline-block;
+}
+
+
+/**************************
+Combat log
+***************************/
 #log_container{
     height: 200px;
     width: 300px;
@@ -13,7 +27,16 @@
 .endturn{
     border-bottom: 2px solid gray;
 }
-#add_combatant_comtainer{
+/**************************
+Actions
+***************************/
+#action_container{
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid black;
+    height: 300px;
+}
+#add_combatant_container{
     height: 0px;
     overflow: hidden;
 }
@@ -21,39 +44,23 @@
     height: 0px;
     overflow: hidden;
 }
-
 #amount:focus{
     border: 2px solid orange;
 }
-
+/**************************
+Combatant List
+***************************/
 #combatant_list_container{
     width: 300px;
     height: 300px;
-    display:block;
+    display: inline-block;
     overflow : auto;
     border: 1px solid black;
 }
-.name{
-    width: 150px;
-    display: inline-block;
-}
-
-.hp{
-    display: inline;
-    float: right;
-}
-.maxhp{
-    width: 30px;
-    display: inline-block;
-    text-align: center;
-}
-
-.round{
-    width: 50px;
-    display: inline-block;
-    text-align: center;
-}
-
+.name{ width: 150px; display: inline-block; }
+.hp{ display: inline; float: right; }
+.maxhp{ width: 30px; display: inline-block; text-align: center; }
+.round{ width: 50px; display: inline-block; text-align: center; }
 .combatant{
     padding: 2px;
     padding-left: 5px;
@@ -61,68 +68,24 @@
     border: 1px solid black;
     margin: 1px;
 }
-
 #combatant{
     background: chartreuse;
     -moz-border-radius: 0px;
     border: none;
     margin: 0px;
 }
-div#combatant:hover{
-    /* blank for no hover effect*/
-}
-
-div.combatant:hover {
-    background: #00BFFF;
-}
-
-div.combatant.selected:hover {
-    background: #99ddee;
-}
-
-button.action {
-    float: bottom;
-}
-
-
-.player{
-    background: rgba(0,128,0,1);
-}
-.player.selected{
-    background: rgba(0,128,0,.5);
-}
-
-.monster {
-    background: rgba(139,0,0,1);
-}
-.monster.selected {
-    background: rgba(139,0,0,.5);
-}
-
-.bloodied{
-    border:1px solid red;
-}
-
-.dying{
-    background: gray;
-    border: 1px solid red;
-}
-
-.dying.selected{
-    background: lightgray;
-}
-
-/*damaged is below dead so that the text will still flash red*/
-.dead{
-    color: white;
-    background: black;
-}
-
-.healed{
-    color: limegreen;
-/*    //rgb(0,255,0);*/
-}
-.damaged{
-    color:red ;
-}
+div#combatant:hover{ /* blank for no hover effect*/ }
+div.combatant:hover { background: #00BFFF; }
+div.combatant.selected:hover{ background: #99ddee; }
+.player{ background: rgba(0,128,0,1); }
+.player.selected{ background: rgba(0,128,0,.5); }
+.monster { background: rgba(139,0,0,1); }
+.monster.selected { background: rgba(139,0,0,.5); }
+.bloodied{ border:1px solid red; }
+.dying{ background: gray; border: 1px solid red; }
+.dying.selected{ background: lightgray; }
+/*dead  is above damaged so that the text will still flash red*/
+.dead{ color: white; background: black; }
+.healed{ color: limegreen;/*    //rgb(0,255,0);*/}
+.damaged{ color:red ; }
 

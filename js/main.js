@@ -7,6 +7,8 @@ function removeClass(obj, className){
 }
 
 function BindKeys(){
+    // https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
+
     $(document).keydown(function(event){
         switch(event.keyCode){
             case 65: // a
@@ -33,39 +35,98 @@ function BindKeys(){
         }
     });
 
+    $(".text").keydown(function(event){
+        // this should prevent shortcut keys from triggering for a-z
+        if (event.keyCode >= 65 && event.keyCode <= 90){
+            event.stopPropagation();
+        }
+    });
+
+    $(".only_numbers").keydown(function(event){
+        // non-numeric characters
+        if ((event.keyCode >= 59 && event.keyCode <= 90)
+            || (event.keyCode >= 106 && event.keyCode <= 111)
+            || (event.keyCode >= 188 && event.keyCode <= 222)
+//            || event.keyCode == 8 // space
+        ){
+//            Log("canceleld "+event.which);
+            event.preventDefault();
+            event.stopPropagation(); // stop other shortcut keys
+        }
+    });
+
     $("#amount").keydown(function(event){
-        // https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
         if (event.keyCode == '13'){ // enter
             $("#amount_ok").click();
         }
         if (event.keyCode == '27'){ // escape
             $("#amount_cancel").click();
         }
-        // non-numeric characters
-        if ((event.keyCode >= 59 && event.keyCode <= 90) ||
-            (event.keyCode >= 106 && event.keyCode <= 111) ||
-            (event.keyCode >= 188 && event.keyCode <= 222)){
-            Log("canceleld "+event.which);
-            event.preventDefault();
+    });
+
+    $("#add_combatant_container").keydown(function(event){
+        if (event.keyCode == '13'){ // enter
+            $("#add_combatant_ok").click();
+        }
+        if (event.keyCode == '27'){ // escape
+            $("#add_combatant_cancel").click();
         }
     });
+
+}
+
+function BindClicks(){
+    $("#b_next").click(function(){ Next(); });
+    $("#b_damage").click(function(){ ShowAmount(Damage); });
+    $("#b_heal").click(function(){ ShowAmount(Heal); });
+    $("#b_temphp").click(function(){ ShowAmount(TempHP); });
+    $("#b_add_combatant").click(function(){
+        ActionSwitch(function(){
+           $("#add_combatant_container").animate({height:300});
+           $("#combatant_name").focus();
+        });
+    });
+    $("#b_remove_combatant").click(function(){ RemoveCombatant(); });
 
     $("#amount_cancel").click(function(){
         $("#amount").attr("value","");
         $("#amount_container").animate({height:0});
         $("#amount").blur();
     });
-    $("#amount").blur();
+    $("#add_combatant_ok").click(function(){
+        AddCombatant();
+        $("#combatant_name").attr("value", "");
+        $("#combatant_max_hp").attr("value", "");
+        $("#combatant_name").focus();
+    });
+    $("#add_combatant_cancel").click(function(){
+        ActionSwitch();
+        $("#add_combatant_container").children().blur();
+    });
+
+}
+
+/**
+ * Animate the hide of all children of action_container and then
+ * execute func.
+ */
+function ActionSwitch(func){
+    $("#action_container").children().animate({height:0}, func );
 }
 
 function ShowAmount(func){
-    if (func == Damage) $("#amount_type").html("Damage");
-    if (func == Heal) $("#amount_type").html("Heal");
-    if (func == TempHP) $("#amount_type").html("Temp HP");
-
-    $("#amount_container").animate({height:50});
+    ActionSwitch(function(){
+        if (func == Damage) $("#amount_type").html("Damage");
+        if (func == Heal) $("#amount_type").html("Heal");
+        if (func == TempHP) $("#amount_type").html("Temp HP");
+        $("#amount_container").animate({height:70});
+    });
     $("#amount").focus();
-    
+
+    // these are not triggering at the right time, leaving a d/h/t in the box
+    // the first time.  solution is hackish, but working.
+//    $("#amount").attr("value","");
+//    $("#amount_container").scrollTop(0);
     setTimeout('$("#amount").attr("value","");$("#amount_container").scrollTop(0);',100);
     
     $("#amount_ok").unbind("click"); // in case they pressed another key first
@@ -119,11 +180,10 @@ function Init(){
         },function(){
             removeClass(this, "selected");
         });
-
-    
     };
 
     BindKeys();
+    BindClicks();
 }
 
 // this will prevent this function from executing again before it is finished.
@@ -214,7 +274,6 @@ function SetStatus(obj){
 }
 
 function TempHP(amt){
-
     $(".combatant.selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.AddTempHP(amt);
@@ -229,7 +288,31 @@ function TempHP(amt){
 }
 
 function AddCombatant(){
-    
+    var name = $("#combatant_name").attr("value");
+    var maxhp = $("#combatant_max_hp").attr("value");
+    if (name == "" || maxhp == "") return;
+
+    var combatant = new Combatant(name,maxhp);
+    combatant.IsPlayer = $("#isplayer").attr("checked");
+    Encounter.AddCombatant(combatant);
+
+    var node = $("#combatant").clone(true);
+    node.attr("id",combatant.ID);
+    node.children(".name").html(combatant.Name);
+    node.children(".hp").html(combatant.MaxHP);
+    node.children(".maxhp").html(combatant.MaxHP);
+    node.children(".round").html(combatant.Round);
+    node.appendTo("#combatant_list");
+    if (combatant.IsPlayer) node.addClass("player");
+    else node.addClass("monster");
+
+
+    node.toggle(function(){
+        addClass(this, "selected");
+    },function(){
+        removeClass(this, "selected");
+    });
+
 }
 
 function RemoveCombatant(){
