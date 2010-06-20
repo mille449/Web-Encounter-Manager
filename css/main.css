@@ -1,6 +1,7 @@
 #sidebar{
     float: left;
     border: 1px solid black;
+    height: 500px;
 }
 #content{
     float: left;
@@ -9,8 +10,18 @@ label{
     width: 100px;
     display: inline-block;
 }
-
-
+.drophover{
+    background: linen;
+    width: 300px;
+    display: inline-block;
+}
+.selected{
+    background: rgba(0,0,0,.5);
+}
+#reserve_title{
+    padding: 3px;
+    background: tan;
+}
 /**************************
 Combat log
 ***************************/
@@ -52,6 +63,7 @@ a.action:visited{
     vertical-align: top;
     border: 1px solid black;
     height: 300px;
+    width: 300px;
 }
 #add_combatant_container{
     height: 0px;
@@ -67,11 +79,13 @@ a.action:visited{
 /**************************
 Combatant List
 ***************************/
-#combatant_list_container{
+/*#combatant_list_container{*/
+.combatant_list{
+    vertical-align: top;
     width: 300px;
     height: 300px;
     display: inline-block;
-    overflow : auto;
+/*    overflow: auto;*/
     border: 1px solid black;
 }
 .name{ width: 150px; display: inline-block; }
@@ -98,7 +112,10 @@ Combatant List
     border: none;
     background: none;
 }
-a.combatant:hover { background: #00BFFF; }
+a.combatant:hover {
+/*    background: #00BFFF; */
+    background: rgba(128,128,128,.5);
+}
 a.coombatant:visited{
     color: black;
 }
@@ -115,3 +132,8 @@ div.combatant.selected:hover{ background: #99ddee; }
 .healed{ color: limegreen;/*    //rgb(0,255,0);*/}
 .damaged{ color:red ; }
 
+.player.ui-selecting{ background: rgba(128,128,128,.5); }
+.player.ui-selected{ background: rgba(0,128,0,.5); }
+
+.monster.ui-selecting{ background: rgba(128,128,128,.5); }
+.monster.ui-selected{ background: rgba(139,0,0,.5); }

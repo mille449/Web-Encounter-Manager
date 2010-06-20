@@ -11,6 +11,7 @@
 <html>
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/condition.js"></script>
         <script type="text/javascript" src="js/combatant.js"></script>
         <script type="text/javascript" src="js/encounter.js"></script>
@@ -26,20 +27,19 @@
             <a id="b_temphp" class="action" href="#">Temp HP</a><br/>
             <a id="b_add_combatant" class="action" href="#">Add Combatant</a><br/>
             <a id="b_remove_combatant" class="action" href="#">Remove Combatant</a><br/>
+            <a id="b_reorder" class="action" href="#">Reorder</a><br/>
         </div>
         <div id="content">
-            <span id="combatant_list_container">
-<!--                <div id="combatant" class="combatant" >-->
-            <div id="combatant_list_heading">
-                <a href="#" id="combatant" class="combatant" >
-                        <span class="name">Name</span>
-                        <span class="round">Round</span>
-                        <span class="hp">HP</span>
-                        <span class="maxhp">Max</span>
-<!--                </div>-->
-                </a>
+            <span id="combatant_list_container" class="combatant_list">
+                <div id="combatant_list_heading">
+                    <a href="#" id="combatant" class="combatant" >
+                            <span class="name">Name</span>
+                            <span class="round">Round</span>
+                            <span class="hp">HP</span>
+                            <span class="maxhp">Max</span>
+                    </a>
                 </div>
-                <div id="combatant_list"></div>
+                <div id="combatant_list" ></div>
             </span>
 
             <span id="action_container">
@@ -60,7 +60,9 @@
             </span>
 
             <br/>
-
+            <span id="reserve_container" class="combatant_list">
+                <div id="reserve_title">Reserve</div>
+            </span>
 
             <div id="log_container"></div>
         </div>

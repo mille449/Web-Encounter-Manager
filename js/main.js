@@ -87,7 +87,16 @@ function BindClicks(){
         });
     });
     $("#b_remove_combatant").click(function(){ RemoveCombatant(); });
-
+    $("#b_reorder").toggle(function(){ 
+        $(this).addClass("selected");
+        $(".combatant").removeClass("ui-selected");
+        $(".combatant_list").selectable( "option", "disabled", true );
+        $(".combatant_list").sortable( "option", "disabled", false );
+    }, function(){
+        $(this).removeClass("selected");
+        $(".combatant_list").sortable( "option", "disabled", true );
+        $(".combatant_list").selectable( "option", "disabled", false );
+    });
     $("#amount_cancel").click(function(){
         $("#amount").attr("value","");
         $("#amount_container").animate({height:0});
@@ -174,16 +183,16 @@ function Init(){
         if (combatant.IsPlayer) node.addClass("player");
         else node.addClass("monster");
 
-
-        node.toggle(function(){
-            addClass(this, "selected");
-        },function(){
-            removeClass(this, "selected");
-        });
-    };
+    }
 
     BindKeys();
     BindClicks();
+
+    $(".combatant_list").sortable({items: 'a', forcePlaceholderSize: true,
+        placeholder: 'drophover',connectWith: '.combatant_list',
+        disabled: true, cancel: '#combatant'
+    });
+    $(".combatant_list").selectable({distance: 0, filter: 'a'});
 }
 
 // this will prevent this function from executing again before it is finished.
@@ -232,7 +241,7 @@ function Next(){
 
 function Damage(amt){
 
-    $(".combatant.selected").each(function(){
+    $(".combatant.ui-selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.Damage(amt);
         $(this).children(".hp").html(combatant.HPString());
@@ -248,7 +257,7 @@ function Damage(amt){
 
 function Heal(amt){
     
-    $(".combatant.selected").each(function(){
+    $(".combatant.ui-selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.Heal(amt);
         $(this).children(".hp").html(combatant.HPString());
@@ -274,7 +283,7 @@ function SetStatus(obj){
 }
 
 function TempHP(amt){
-    $(".combatant.selected").each(function(){
+    $(".combatant.ui-selected").each(function(){
         var combatant = Encounter.Combatants[this.id];
         var changed = combatant.AddTempHP(amt);
         $(this).children(".hp").html(combatant.HPString());
@@ -306,20 +315,12 @@ function AddCombatant(){
     node.appendTo("#combatant_list");
     if (combatant.IsPlayer) node.addClass("player");
     else node.addClass("monster");
-
-
-    node.toggle(function(){
-        addClass(this, "selected");
-    },function(){
-        removeClass(this, "selected");
-    });
-
 }
 
 function RemoveCombatant(){
     var msg = "Do you really want to remove the following combatants?\n\n";
     var ids = []; // keep track of ids in case things get deselected unexpectedly
-    $(".combatant.selected").each(function(){
+    $(".combatant.ui-selected").each(function(){
         ids.push(this.id);
         msg += Encounter.Combatants[this.id].Name + "\n";
     });
@@ -333,5 +334,7 @@ function RemoveCombatant(){
         }
     }
 }
+
+
 
 $(document).ready(Init);
