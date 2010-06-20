@@ -1,8 +1,10 @@
-
-button.action {
-    float: bottom;
+#sidebar{
+    float: left;
+    border: 1px solid black;
 }
-
+#content{
+    float: left;
+}
 label{
     width: 100px;
     display: inline-block;
@@ -30,6 +32,21 @@ Combat log
 /**************************
 Actions
 ***************************/
+.action{
+    color: black;
+    padding:3px;
+    height:20px;
+    width: 150px;
+    display: inline-block;
+    text-decoration: none;
+}
+a.action:hover{
+    background: lightblue;
+}
+a.action:visited{
+    color: black;
+}
+
 #action_container{
     display: inline-block;
     vertical-align: top;
@@ -62,20 +79,29 @@ Combatant List
 .maxhp{ width: 30px; display: inline-block; text-align: center; }
 .round{ width: 50px; display: inline-block; text-align: center; }
 .combatant{
+    height: 20px;
+    width: 288px;
     padding: 2px;
     padding-left: 5px;
     -moz-border-radius: 4px;
     border: 1px solid black;
     margin: 1px;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
 }
-#combatant{
-    background: chartreuse;
-    -moz-border-radius: 0px;
-    border: none;
+#combatant_list_heading{
+    background: tan;
     margin: 0px;
 }
-div#combatant:hover{ /* blank for no hover effect*/ }
-div.combatant:hover { background: #00BFFF; }
+#combatant{
+    border: none;
+    background: none;
+}
+a.combatant:hover { background: #00BFFF; }
+a.coombatant:visited{
+    color: black;
+}
 div.combatant.selected:hover{ background: #99ddee; }
 .player{ background: rgba(0,128,0,1); }
 .player.selected{ background: rgba(0,128,0,.5); }

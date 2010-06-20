@@ -293,6 +293,7 @@ function AddCombatant(){
     if (name == "" || maxhp == "") return;
 
     var combatant = new Combatant(name,maxhp);
+    combatant.Round = Encounter.Round;
     combatant.IsPlayer = $("#isplayer").attr("checked");
     Encounter.AddCombatant(combatant);
 
